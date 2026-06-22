@@ -1,0 +1,1388 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Louis Hasashi Halim — Portfolio</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ===== TOKENS ===== */
+      :root {
+        --black: #0a0806;
+        --dark-brown: #1c1007;
+        --mid-brown: #2e1d0e;
+        --brown: #3d2b1a;
+        --gold: #c8973a;
+        --gold-light: #e4b96a;
+        --gold-dim: #8a6220;
+        --cream: #f0e6d0;
+        --cream-dim: #b8a88a;
+        --white: #fdf8f0;
+
+        --font-display: "Playfair Display", Georgia, serif;
+        --font-body: "Inter", system-ui, sans-serif;
+      }
+
+      /* ===== RESET ===== */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--black);
+        color: var(--cream);
+        font-family: var(--font-body);
+        font-size: 16px;
+        line-height: 1.7;
+        overflow-x: hidden;
+      }
+
+      /* ===== SCROLLBAR ===== */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: var(--dark-brown);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: var(--gold-dim);
+        border-radius: 3px;
+      }
+
+      /* ===== NOISE TEXTURE OVERLAY ===== */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9999;
+        opacity: 0.4;
+      }
+
+      /* ===== GOLD LINE ===== */
+      .gold-line {
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--gold),
+          transparent
+        );
+        margin: 0 auto;
+      }
+
+      /* ===== NAV ===== */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.2rem 4vw;
+        background: rgba(10, 8, 6, 0.85);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(200, 151, 58, 0.15);
+        transition: background 0.3s;
+      }
+      .nav-logo {
+        font-family: var(--font-display);
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--gold);
+        letter-spacing: 0.05em;
+        text-decoration: none;
+      }
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+      .nav-links a {
+        color: var(--cream-dim);
+        text-decoration: none;
+        font-size: 0.8rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 500;
+        transition: color 0.25s;
+        position: relative;
+      }
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -3px;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: var(--gold);
+        transition: width 0.3s;
+      }
+      .nav-links a:hover {
+        color: var(--gold);
+      }
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* hamburger */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 4px;
+        background: none;
+        border: none;
+      }
+      .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--gold);
+        transition: all 0.3s;
+      }
+      .hamburger.open span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+      .hamburger.open span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger.open span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 64px;
+        left: 0;
+        right: 0;
+        background: rgba(10, 8, 6, 0.97);
+        border-bottom: 1px solid rgba(200, 151, 58, 0.2);
+        flex-direction: column;
+        padding: 1.5rem 2rem;
+        gap: 1.2rem;
+        z-index: 99;
+      }
+      .mobile-menu.open {
+        display: flex;
+      }
+      .mobile-menu a {
+        color: var(--cream-dim);
+        text-decoration: none;
+        font-size: 1rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 500;
+        transition: color 0.2s;
+      }
+      .mobile-menu a:hover {
+        color: var(--gold);
+      }
+
+      /* ===== HERO ===== */
+      #hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 0 4vw;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-bg-ring {
+        position: absolute;
+        border-radius: 50%;
+        border: 1px solid rgba(200, 151, 58, 0.08);
+        pointer-events: none;
+      }
+      .hero-bg-ring:nth-child(1) {
+        width: 600px;
+        height: 600px;
+        top: -100px;
+        right: -150px;
+      }
+      .hero-bg-ring:nth-child(2) {
+        width: 900px;
+        height: 900px;
+        top: -250px;
+        right: -300px;
+        border-color: rgba(200, 151, 58, 0.04);
+      }
+      .hero-bg-ring:nth-child(3) {
+        width: 300px;
+        height: 300px;
+        bottom: 50px;
+        left: -80px;
+        border-color: rgba(200, 151, 58, 0.06);
+      }
+
+      .hero-inner {
+        max-width: 900px;
+        padding-top: 100px;
+        position: relative;
+        z-index: 1;
+      }
+      .hero-eyebrow {
+        font-size: 0.72rem;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 1.2rem;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 0.8s 0.2s forwards;
+      }
+
+      /* ===== PHOTO PLACEHOLDER ===== */
+      .hero-photo-wrap {
+        float: right;
+        margin: 0 0 2rem 3rem;
+        opacity: 0;
+        transform: translateX(30px);
+        animation: fadeLeft 0.9s 0.3s forwards;
+      }
+      .photo-frame {
+        width: 200px;
+        height: 200px;
+        border-radius: 4px;
+        border: 2px solid var(--gold-dim);
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 0 40px rgba(200, 151, 58, 0.12);
+      }
+      .photo-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .photo-placeholder {
+        width: 100%;
+        height: 100%;
+        background: var(--mid-brown);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        color: var(--gold-dim);
+        font-size: 0.7rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-align: center;
+        padding: 1rem;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+      .photo-placeholder:hover {
+        background: var(--brown);
+      }
+      .photo-placeholder svg {
+        width: 36px;
+        height: 36px;
+        opacity: 0.5;
+      }
+      .photo-corner {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-color: var(--gold);
+        border-style: solid;
+      }
+      .photo-corner.tl {
+        top: 6px;
+        left: 6px;
+        border-width: 2px 0 0 2px;
+      }
+      .photo-corner.tr {
+        top: 6px;
+        right: 6px;
+        border-width: 2px 2px 0 0;
+      }
+      .photo-corner.bl {
+        bottom: 6px;
+        left: 6px;
+        border-width: 0 0 2px 2px;
+      }
+      .photo-corner.br {
+        bottom: 6px;
+        right: 6px;
+        border-width: 0 2px 2px 0;
+      }
+
+      /* hidden file input */
+      #photo-input {
+        display: none;
+      }
+
+      .hero-name {
+        font-family: var(--font-display);
+        font-size: clamp(2.8rem, 7vw, 5.5rem);
+        font-weight: 900;
+        line-height: 1;
+        color: var(--white);
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeUp 0.9s 0.35s forwards;
+      }
+      .hero-name em {
+        font-style: normal;
+        color: var(--gold);
+      }
+      .hero-title {
+        font-size: clamp(0.9rem, 2vw, 1.1rem);
+        color: var(--cream-dim);
+        margin-top: 1rem;
+        font-weight: 300;
+        letter-spacing: 0.05em;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 0.9s 0.5s forwards;
+      }
+      .hero-bio {
+        margin-top: 1.5rem;
+        max-width: 560px;
+        color: var(--cream-dim);
+        font-size: 0.95rem;
+        line-height: 1.8;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 0.9s 0.65s forwards;
+      }
+      .hero-cta {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2.5rem;
+        flex-wrap: wrap;
+        opacity: 0;
+        transform: translateY(20px);
+        animation: fadeUp 0.9s 0.8s forwards;
+      }
+      .btn-gold {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.8rem;
+        background: var(--gold);
+        color: var(--black);
+        font-weight: 600;
+        font-size: 0.82rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        transition:
+          background 0.25s,
+          transform 0.2s,
+          box-shadow 0.25s;
+      }
+      .btn-gold:hover {
+        background: var(--gold-light);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(200, 151, 58, 0.3);
+      }
+      .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.8rem;
+        background: transparent;
+        color: var(--gold);
+        font-weight: 600;
+        font-size: 0.82rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        text-decoration: none;
+        border: 1px solid var(--gold-dim);
+        cursor: pointer;
+        transition:
+          border-color 0.25s,
+          color 0.25s,
+          transform 0.2s;
+      }
+      .btn-outline:hover {
+        border-color: var(--gold);
+        color: var(--gold-light);
+        transform: translateY(-2px);
+      }
+
+      /* ===== SECTIONS ===== */
+      section {
+        padding: 6rem 4vw;
+      }
+      .section-label {
+        font-size: 0.7rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 0.6rem;
+      }
+      .section-title {
+        font-family: var(--font-display);
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        font-weight: 700;
+        color: var(--white);
+        line-height: 1.2;
+      }
+      .section-header {
+        margin-bottom: 3.5rem;
+      }
+
+      /* ===== ABOUT ===== */
+      #about {
+        background: var(--dark-brown);
+      }
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: start;
+        max-width: 1100px;
+      }
+      .about-text p {
+        color: var(--cream-dim);
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+      }
+      .contact-list {
+        list-style: none;
+        margin-top: 2rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      .contact-list li {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.88rem;
+        color: var(--cream-dim);
+      }
+      .contact-list li span.icon {
+        color: var(--gold);
+        font-size: 1rem;
+        width: 20px;
+        text-align: center;
+      }
+      .contact-list a {
+        color: var(--cream-dim);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .contact-list a:hover {
+        color: var(--gold);
+      }
+
+      /* Skills */
+      .skill-group {
+        margin-bottom: 2rem;
+      }
+      .skill-group-label {
+        font-size: 0.72rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--gold-dim);
+        margin-bottom: 0.8rem;
+      }
+      .skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      .skill-tag {
+        padding: 0.35rem 0.9rem;
+        background: rgba(200, 151, 58, 0.08);
+        border: 1px solid rgba(200, 151, 58, 0.2);
+        color: var(--cream-dim);
+        font-size: 0.78rem;
+        letter-spacing: 0.05em;
+        border-radius: 2px;
+        transition: all 0.2s;
+      }
+      .skill-tag:hover {
+        background: rgba(200, 151, 58, 0.18);
+        border-color: var(--gold-dim);
+        color: var(--gold-light);
+      }
+
+      /* ===== EDUCATION ===== */
+      #education {
+        background: var(--black);
+      }
+      .edu-timeline {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+        max-width: 700px;
+      }
+      .edu-item {
+        display: flex;
+        gap: 2rem;
+        position: relative;
+      }
+      .edu-item::before {
+        content: "";
+        position: absolute;
+        left: 9px;
+        top: 36px;
+        bottom: -2.5rem;
+        width: 1px;
+        background: rgba(200, 151, 58, 0.15);
+      }
+      .edu-item:last-child::before {
+        display: none;
+      }
+      .edu-dot {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 2px solid var(--gold);
+        background: var(--black);
+        flex-shrink: 0;
+        margin-top: 4px;
+        position: relative;
+      }
+      .edu-dot::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--gold);
+      }
+      .edu-content {
+        padding-top: 0;
+      }
+      .edu-degree {
+        font-family: var(--font-display);
+        font-size: 1.1rem;
+        color: var(--white);
+        font-weight: 700;
+      }
+      .edu-school {
+        color: var(--gold);
+        font-size: 0.88rem;
+        margin-top: 0.2rem;
+      }
+      .edu-year {
+        color: var(--cream-dim);
+        font-size: 0.78rem;
+        margin-top: 0.2rem;
+        letter-spacing: 0.05em;
+      }
+
+      /* ===== EXPERIENCE ===== */
+      #experience {
+        background: var(--dark-brown);
+      }
+      .exp-card {
+        max-width: 760px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(200, 151, 58, 0.15);
+        padding: 2.5rem;
+        position: relative;
+      }
+      .exp-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--gold), transparent);
+      }
+      .exp-role {
+        font-family: var(--font-display);
+        font-size: 1.3rem;
+        color: var(--white);
+        font-weight: 700;
+      }
+      .exp-company {
+        color: var(--gold);
+        font-size: 0.9rem;
+        margin-top: 0.2rem;
+      }
+      .exp-period {
+        color: var(--cream-dim);
+        font-size: 0.78rem;
+        margin-top: 0.2rem;
+        letter-spacing: 0.06em;
+      }
+      .exp-list {
+        margin-top: 1.5rem;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+      .exp-list li {
+        display: flex;
+        gap: 0.75rem;
+        font-size: 0.9rem;
+        color: var(--cream-dim);
+      }
+      .exp-list li::before {
+        content: "▸";
+        color: var(--gold);
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
+
+      /* ===== PROJECTS ===== */
+      #projects {
+        background: var(--black);
+      }
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.5rem;
+      }
+      .project-card {
+        background: var(--dark-brown);
+        border: 1px solid rgba(200, 151, 58, 0.12);
+        padding: 1.8rem;
+        position: relative;
+        overflow: hidden;
+        transition:
+          transform 0.3s,
+          border-color 0.3s,
+          box-shadow 0.3s;
+        cursor: pointer;
+        text-decoration: none;
+        display: block;
+        color: inherit;
+      }
+      .project-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          rgba(200, 151, 58, 0.05) 0%,
+          transparent 60%
+        );
+        opacity: 0;
+        transition: opacity 0.35s;
+      }
+      .project-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(200, 151, 58, 0.35);
+        box-shadow:
+          0 16px 40px rgba(0, 0, 0, 0.4),
+          0 0 0 1px rgba(200, 151, 58, 0.1);
+      }
+      .project-card:hover::before {
+        opacity: 1;
+      }
+
+      .project-icon {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 1.2rem;
+        color: var(--gold-dim);
+      }
+      .project-name {
+        font-family: var(--font-display);
+        font-size: 1.05rem;
+        color: var(--white);
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+      .project-desc {
+        font-size: 0.85rem;
+        color: var(--cream-dim);
+        line-height: 1.7;
+      }
+      .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 1.2rem;
+      }
+      .tech-tag {
+        font-size: 0.68rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--gold-dim);
+        background: rgba(200, 151, 58, 0.07);
+        border: 1px solid rgba(200, 151, 58, 0.15);
+        padding: 0.2rem 0.6rem;
+        border-radius: 2px;
+      }
+      .project-arrow {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        color: var(--gold-dim);
+        font-size: 1rem;
+        transition:
+          transform 0.3s,
+          color 0.3s;
+      }
+      .project-card:hover .project-arrow {
+        transform: translate(3px, -3px);
+        color: var(--gold);
+      }
+
+      /* ===== CONTACT ===== */
+      #contact {
+        background: var(--dark-brown);
+        text-align: center;
+      }
+      .contact-inner {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .contact-inner p {
+        color: var(--cream-dim);
+        margin: 1.5rem 0 2.5rem;
+        font-size: 1rem;
+      }
+      .contact-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      /* ===== FOOTER ===== */
+      footer {
+        padding: 2rem 4vw;
+        background: var(--black);
+        border-top: 1px solid rgba(200, 151, 58, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      footer p {
+        font-size: 0.78rem;
+        color: var(--cream-dim);
+        opacity: 0.6;
+      }
+      .footer-name {
+        font-family: var(--font-display);
+        color: var(--gold);
+        font-size: 0.9rem;
+      }
+
+      /* ===== CURSOR GLOW (desktop only) ===== */
+      .cursor-glow {
+        position: fixed;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(200, 151, 58, 0.06) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        z-index: 0;
+        transition: opacity 0.3s;
+      }
+
+      /* ===== SCROLL REVEAL ===== */
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.7s,
+          transform 0.7s;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* ===== ANIMATIONS ===== */
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeLeft {
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+        .hamburger {
+          display: flex;
+        }
+
+        .hero-photo-wrap {
+          float: none;
+          display: flex;
+          justify-content: center;
+          margin: 0 0 2rem 0;
+        }
+        .hero-inner {
+          padding-top: 90px;
+        }
+
+        .about-grid {
+          grid-template-columns: 1fr;
+          gap: 2.5rem;
+        }
+
+        section {
+          padding: 4rem 5vw;
+        }
+
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+
+        footer {
+          flex-direction: column;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- CURSOR GLOW -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <!-- NAV -->
+    <nav id="navbar">
+      <a href="#hero" class="nav-logo">LHH</a>
+      <ul class="nav-links">
+        <li><a href="#about">Tentang</a></li>
+        <li><a href="#education">Pendidikan</a></li>
+        <li><a href="#experience">Pengalaman</a></li>
+        <li><a href="#projects">Proyek</a></li>
+        <li><a href="#contact">Kontak</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="#about" onclick="closeMobile()">Tentang</a>
+      <a href="#education" onclick="closeMobile()">Pendidikan</a>
+      <a href="#experience" onclick="closeMobile()">Pengalaman</a>
+      <a href="#projects" onclick="closeMobile()">Proyek</a>
+      <a href="#contact" onclick="closeMobile()">Kontak</a>
+    </div>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-bg-ring"></div>
+      <div class="hero-bg-ring"></div>
+      <div class="hero-bg-ring"></div>
+
+      <div class="hero-inner">
+        <p class="hero-eyebrow">Portofolio Digital</p>
+        <h1 class="hero-name">Louis<em> Hasashi Halim</em></h1>
+        <p class="hero-title">
+          Mahasiswa Sistem Informasi &nbsp;·&nbsp; Web Developer &nbsp;·&nbsp;
+          Admin Enthusiast
+        </p>
+        <p class="hero-bio">
+          Membangun solusi digital yang fungsional, ringan, dan terstruktur —
+          dari aplikasi manajemen keuangan hingga game idle berbasis web.
+          Berbasis di Tangerang, Banten.
+        </p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn-gold">Lihat Proyek</a>
+          <a href="#contact" class="btn-outline">Hubungi Saya</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="gold-line"></div>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-header reveal">
+        <p class="section-label">Siapa Saya</p>
+        <h2 class="section-title">Tentang</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>
+            Saya mahasiswa S1 Sistem Informasi di Institut Teknologi dan Bisnis
+            Bina Sarana Global. Minat saya mencakup pengembangan aplikasi web,
+            administrasi digital, dan keuangan.
+          </p>
+          <p>
+            Terbiasa bekerja mandiri dan dalam tim, teliti terhadap detail,
+            serta cepat beradaptasi dengan teknologi baru. Saya percaya bahwa
+            kode yang baik bukan hanya yang bekerja — tapi yang mudah dipahami
+            dan dirawat.
+          </p>
+          <ul class="contact-list">
+            <li><span class="icon">📍</span> Tangerang, Banten</li>
+            <li>
+              <span class="icon">📞</span>
+              <a href="tel:+6283150323263">+62 831 5032 3263</a>
+            </li>
+            <li>
+              <span class="icon">✉️</span>
+              <a href="mailto:louishasashi@gmail.com">louishasashi@gmail.com</a>
+            </li>
+            <li>
+              <span class="icon">🐙</span>
+              <a
+                href="https://github.com/louishasashi-dev"
+                target="_blank"
+                rel="noopener"
+                >github.com/louishasashi-dev</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="reveal">
+          <div class="skill-group">
+            <p class="skill-group-label">Produktivitas</p>
+            <div class="skill-tags">
+              <span class="skill-tag">Microsoft Word</span>
+              <span class="skill-tag">Microsoft Excel</span>
+              <span class="skill-tag">Microsoft PowerPoint</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <p class="skill-group-label">Web Development</p>
+            <div class="skill-tags">
+              <span class="skill-tag">HTML</span>
+              <span class="skill-tag">CSS</span>
+              <span class="skill-tag">JavaScript</span>
+            </div>
+          </div>
+          <div class="skill-group">
+            <p class="skill-group-label">Tools</p>
+            <div class="skill-tags">
+              <span class="skill-tag">GitHub</span>
+              <span class="skill-tag">PWA</span>
+              <span class="skill-tag">localStorage</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="gold-line"></div>
+
+    <!-- EDUCATION -->
+    <section id="education">
+      <div class="section-header reveal">
+        <p class="section-label">Latar Belakang Akademik</p>
+        <h2 class="section-title">Pendidikan</h2>
+      </div>
+      <div class="edu-timeline">
+        <div class="edu-item reveal">
+          <div class="edu-dot"></div>
+          <div class="edu-content">
+            <p class="edu-degree">S1 Sistem Informasi</p>
+            <p class="edu-school">
+              Institut Teknologi dan Bisnis Bina Sarana Global
+            </p>
+            <p class="edu-year">2024 — Sekarang</p>
+          </div>
+        </div>
+        <div class="edu-item reveal">
+          <div class="edu-dot"></div>
+          <div class="edu-content">
+            <p class="edu-degree">SMK Administrasi Perkantoran</p>
+            <p class="edu-school">SMKS Teknologi Pilar Bangsa</p>
+            <p class="edu-year">2021 — 2024</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="gold-line"></div>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <div class="section-header reveal">
+        <p class="section-label">Rekam Jejak</p>
+        <h2 class="section-title">Pengalaman</h2>
+      </div>
+      <div class="exp-card reveal">
+        <p class="exp-role">Admin Medis</p>
+        <p class="exp-company">UPTD Puskesmas Mauk — Praktik Kerja Lapangan</p>
+        <p class="exp-period">September 2022 – November 2022</p>
+        <ul class="exp-list">
+          <li>
+            Mencatat dan mengelola data pasien secara manual dengan akurasi
+            tinggi.
+          </li>
+          <li>
+            Mengelompokkan serta mendistribusikan data pasien ke poli terkait
+            sesuai prosedur.
+          </li>
+          <li>
+            Membantu proses administrasi rekam medis sesuai Standar Operasional
+            Prosedur (SOP).
+          </li>
+          <li>
+            Menjaga kerahasiaan data pasien dan berkolaborasi efektif dalam tim.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="gold-line"></div>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="section-header reveal">
+        <p class="section-label">Karya Terpilih</p>
+        <h2 class="section-title">Proyek</h2>
+      </div>
+      <div class="projects-grid">
+        <a
+          class="project-card reveal"
+          href="https://github.com/louishasashi-dev/moneymanagement"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="project-arrow">↗</span>
+          <svg
+            class="project-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <rect x="2" y="5" width="20" height="14" rx="2" />
+            <path d="M2 10h20M7 15h2m4 0h4" />
+          </svg>
+          <p class="project-name">Money Management</p>
+          <p class="project-desc">
+            Aplikasi manajemen keuangan harian berbasis PWA — offline, ringan,
+            dan bisa diinstall di Android. Fitur pencatatan transaksi, laporan,
+            dan analisis keuangan.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">HTML</span>
+            <span class="tech-tag">CSS</span>
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">PWA</span>
+          </div>
+        </a>
+
+        <a
+          class="project-card reveal"
+          href="https://github.com/louishasashi-dev/OmniConverter"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="project-arrow">↗</span>
+          <svg
+            class="project-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <path
+              d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+            />
+          </svg>
+          <p class="project-name">OmniConverter / LimConverter</p>
+          <p class="project-desc">
+            Konverter mata uang real-time dengan desain neon futuristik. Kurs
+            live dari ExchangeRate-API, mendukung 60+ mata uang dunia termasuk
+            IDR, USD, EUR, JPY.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">HTML</span>
+            <span class="tech-tag">CSS</span>
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">API</span>
+          </div>
+        </a>
+
+        <a
+          class="project-card reveal"
+          href="https://github.com/louishasashi-dev/football-stars-idle"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="project-arrow">↗</span>
+          <svg
+            class="project-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path
+              d="M12 2a10 10 0 0110 10M8 21.4A10 10 0 0112 22M12 2c-2 4-2 8 0 12s5 7 5 7"
+            />
+          </svg>
+          <p class="project-name">Football Stars Idle</p>
+          <p class="project-desc">
+            Game idle berbasis web bertema sepak bola. Bangun tim, kembangkan
+            pemain bintang, dan tingkatkan performa klub secara progresif.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">HTML</span>
+            <span class="tech-tag">CSS</span>
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">Game</span>
+          </div>
+        </a>
+
+        <a
+          class="project-card reveal"
+          href="https://github.com/louishasashi-dev/KONGLOGAME"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="project-arrow">↗</span>
+          <svg
+            class="project-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <path
+              d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"
+            />
+            <path d="M12 6v6l4 2" />
+          </svg>
+          <p class="project-name">KONGLOGAME</p>
+          <p class="project-desc">
+            Game idle bertema mining dan investasi. Bangun kekayaan lewat
+            upgrade level, saham, properti, dan bisnis. Dilengkapi sistem
+            multi-wallet, auto-transfer, dan auto-savings.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">HTML</span>
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">localStorage</span>
+            <span class="tech-tag">Game</span>
+          </div>
+        </a>
+
+        <a
+          class="project-card reveal"
+          href="https://github.com/louishasashi-dev/4minds_convection"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="project-arrow">↗</span>
+          <svg
+            class="project-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <path
+              d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
+            />
+          </svg>
+          <p class="project-name">4Minds Convection</p>
+          <p class="project-desc">
+            Website bisnis konveksi profesional. Menampilkan produk, layanan,
+            dan informasi kontak untuk usaha konveksi pakaian.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">HTML</span>
+            <span class="tech-tag">CSS</span>
+            <span class="tech-tag">JavaScript</span>
+          </div>
+        </a>
+
+        <a
+          class="project-card reveal"
+          href="https://github.com/louishasashi-dev/rs_pendaftaran"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="project-arrow">↗</span>
+          <svg
+            class="project-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+          </svg>
+          <p class="project-name">RS Pendaftaran</p>
+          <p class="project-desc">
+            Sistem pendaftaran pasien berbasis web untuk rumah sakit. Memudahkan
+            proses registrasi, antrian, dan administrasi pasien secara digital.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">HTML</span>
+            <span class="tech-tag">CSS</span>
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">Admin</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <div class="gold-line"></div>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="contact-inner">
+        <div class="section-header reveal">
+          <p class="section-label">Mari Terhubung</p>
+          <h2 class="section-title">Kontak</h2>
+        </div>
+        <p class="reveal">
+          Tertarik berkolaborasi atau ingin mengetahui lebih lanjut tentang
+          proyek saya? Jangan ragu untuk menghubungi saya.
+        </p>
+        <div class="contact-buttons reveal">
+          <a href="mailto:louishasashi@gmail.com" class="btn-gold"
+            >Kirim Email</a
+          >
+          <a
+            href="https://github.com/louishasashi-dev"
+            target="_blank"
+            rel="noopener"
+            class="btn-outline"
+            >GitHub Profile</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <span class="footer-name">Louis Hasashi Halim</span>
+      <p>© 2025 · Tangerang, Banten</p>
+    </footer>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+      /* --- Cursor Glow (desktop only) --- */
+      const glow = document.getElementById("cursorGlow");
+      if (window.matchMedia("(pointer: fine)").matches) {
+        document.addEventListener("mousemove", (e) => {
+          glow.style.left = e.clientX + "px";
+          glow.style.top = e.clientY + "px";
+        });
+      } else {
+        glow.style.display = "none";
+      }
+
+      /* --- Hamburger menu --- */
+      const hamburger = document.getElementById("hamburger");
+      const mobileMenu = document.getElementById("mobileMenu");
+
+      hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("open");
+        mobileMenu.classList.toggle("open");
+      });
+
+      function closeMobile() {
+        hamburger.classList.remove("open");
+        mobileMenu.classList.remove("open");
+      }
+
+      /* --- Scroll Reveal --- */
+      const revealEls = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+              const delay = entry.target.dataset.delay || 0;
+              setTimeout(() => entry.target.classList.add("visible"), delay);
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+
+      revealEls.forEach((el, i) => {
+        el.dataset.delay = (i % 4) * 80;
+        observer.observe(el);
+      });
+
+      /* --- Navbar background on scroll --- */
+      const navbar = document.getElementById("navbar");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 60) {
+          navbar.style.background = "rgba(10,8,6,0.97)";
+        } else {
+          navbar.style.background = "rgba(10,8,6,0.85)";
+        }
+      });
+
+      /* --- Photo upload --- */
+      const photoInput = document.getElementById("photo-input");
+      const heroPhoto = document.getElementById("hero-photo");
+      const photoPlaceholder = document.getElementById("photo-placeholder");
+
+      photoInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          heroPhoto.src = ev.target.result;
+          heroPhoto.style.display = "block";
+          photoPlaceholder.style.display = "none";
+        };
+        reader.readAsDataURL(file);
+      });
+
+      /* --- Skill tag hover ripple --- */
+      document.querySelectorAll(".skill-tag").forEach((tag) => {
+        tag.addEventListener("click", function () {
+          this.style.transform = "scale(0.95)";
+          setTimeout(() => (this.style.transform = ""), 150);
+        });
+      });
+
+      /* --- Project card tilt on mousemove (desktop) --- */
+      document.querySelectorAll(".project-card").forEach((card) => {
+        card.addEventListener("mousemove", (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const midX = rect.width / 2;
+          const midY = rect.height / 2;
+          const rotX = ((y - midY) / midY) * -4;
+          const rotY = ((x - midX) / midX) * 4;
+          card.style.transform = `translateY(-4px) perspective(600px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
+        });
+        card.addEventListener("mouseleave", () => {
+          card.style.transform = "";
+        });
+      });
+    </script>
+  </body>
+</html>
